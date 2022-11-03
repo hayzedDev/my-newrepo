@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { resolve } = require("path");
 const path = require("path");
 const crypto = require("crypto");
 const _ = require("lodash");
@@ -62,6 +61,15 @@ const sampleJSONObject = {
 };
 
 const newCSVArray = [];
+
+// 0. Delete any csv file in the newlyCretedCSVFile folder
+
+const directory = "newlyCreatedCSVFile";
+
+fs.readdirSync(directory).forEach((dir) => {
+  fs.unlinkSync(path.join(directory, dir));
+  console.log(`${dir} deleted successfully`);
+});
 
 // 1. Read the csv file
 
@@ -155,7 +163,10 @@ async function consumePromise() {
 
   //   console.log(csvFileArray);
   fs.writeFileSync(
-    `newlyCreatedCSVFile/${fileReaderArray[0]}.output.csv`,
+    `newlyCreatedCSVFile/${fileReaderArray[0].slice(
+      0,
+      fileReaderArray[0].length - 4
+    )}.output.csv`,
     resultArray.join("\n")
   );
 }
